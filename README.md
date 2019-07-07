@@ -1,5 +1,6 @@
 # RESTful-NotesApp
-simple note application restful using node.js,express and mysql
+simple note application restful using node.js, express and mysql
+
 ## Steps for using the program
 1. Install Node.js
 https://nodesource.com/blog/installing-nodejs-tutorial-windows/
