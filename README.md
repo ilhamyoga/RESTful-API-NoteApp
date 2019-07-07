@@ -16,16 +16,15 @@ npm install -g nodemon
 ```
 cd name_directory
 ```
-6. Next, Install npm
+6. Next, Install module. Modules can be likened to libraries that contain packages for use in applications.
 ```
 npm install
 ```
-7. Create database 'myapp' use phpMyAdmin(xampp) Import file myapp.sql
-8. After that, Run program
+9. After that, Run program
 ```
 npm start
 ```
-9. Test this program using tools called POSTMAN. Because by using POSTMAN we can check in realtime in making APIs.
+10. Test this program using tools called POSTMAN. Because by using POSTMAN we can check in realtime in making APIs.
 
 ## Route
 ### GET
