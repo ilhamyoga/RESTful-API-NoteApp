@@ -11,12 +11,12 @@ exports.welcome = function (req, res){
 
 //GET ALL NOTE
 exports.notes = function(req, res){
-	var query = `SELECT * FROM sim_note `
+	var query = `SELECT sim_note.id,title,note,sim_note.createAt,sim_note.updateAt,category_id,category FROM sim_note LEFT JOIN cate_note ON sim_note.category_id=cate_note.id `
 	var query2 = `SELECT * FROM sim_note`
 
 	let search = req.query.search
-	let sort = req.query.sort
-	let page = req.query.page
+	let sort = req.query.sort || 'DESC'
+	let page = req.query.page || 1
 	let limit = req.query.limit || 10
 
 	// search by title
@@ -25,7 +25,7 @@ exports.notes = function(req, res){
 	}
 	// sorting descending and ascending
 	if(!isEmpty(sort)){
-		query += `ORDER BY updateAt `+Sort
+		query += `ORDER BY updateAt `+sort
 	}
 	else{
 		query += `ORDER BY updateAt DESC`
@@ -51,15 +51,25 @@ exports.notes = function(req, res){
         	}
         	else{
         		if(rows.length==0){
-        			return res.send({ status: 400, message: 'note not found' });
+        			return res.send({ status: 400, message: 'note not found', totalNote: 0 });
         		}
         		else if(page<=0){
         			return res.send({ status: 400, message: 'note not found' });
         		}
+        		else if(!isEmpty(search)){
+        			return res.send({ 
+        				status: 200,
+        				data: rows,
+        				totalNote : rows.length, // display lots of data notes
+						page : parseInt(page),
+						sortBy : sort, 
+						totalPage : Math.ceil(rows.length/limit) 
+        			})
+        		}
         		else{
-        			connection.query(query2,function(error,row,field){
-        				response.info(row,page,limit,rows,res);
-        			})      		
+    				connection.query(query2,function(error,row,field){
+    					response.info(row,page,limit,sort,rows,res); 		
+        			})
         		}
         	}
     	}
@@ -91,8 +101,9 @@ exports.onenote = function(req, res){
 //GET NOTE BY CATEGORY
 exports.noteBycategory = function(req, res){
 	let id = req.params.id;
+	let page = 1
 	connection.query(
-		`SELECT * FROM sim_note WHERE category_id=?`,
+		`SELECT sim_note.id,title,note,sim_note.createAt,sim_note.updateAt,category_id,category FROM sim_note LEFT JOIN cate_note ON sim_note.category_id=cate_note.id WHERE category_id=?`,
 		[id],
 		function (error, rows, field){
         	if(error){
@@ -103,7 +114,7 @@ exports.noteBycategory = function(req, res){
 	    			return res.send({ status: 400, message: 'id not found' });
 				}
 				else{
-					response.ok('200',rows,res);
+					response.infoby(page,rows,res);
 				}
         	}
     	}
@@ -140,7 +151,21 @@ exports.insert = function(req, res){
 				console.log(error);
 			}
 			else{
-				response.ok('new note has been created',rows,res);
+				connection.query(
+					`SELECT sim_note.id,title,note,sim_note.createAt,sim_note.updateAt,category_id,category FROM sim_note LEFT JOIN cate_note ON sim_note.category_id=cate_note.id WHERE sim_note.id=${rows.insertId}`,
+					function (error, row, field){
+						const data = {
+							id: rows.insertId,
+							title: title,
+							note: note,
+							createAt: updateAt,
+							updateAt: updateAt,
+							category_id: row[0].category_id,
+							category: row[0].category
+						}
+						response.ok(data,rows,res);
+					}
+				)
 			}
 		}
 	);
@@ -149,16 +174,24 @@ exports.insert = function(req, res){
 //ADD NEW CATEGORY
 exports.incategory = function(req, res){
 	let category = req.body.category;
+	let icon_image = req.body.icon_image;
 	let updateAt = timestamp(`YYYY-MM-DD HH:mm:ss`)
 	connection.query(
-		`INSERT INTO cate_note SET category=?,updateAt=?`,
-		[category,updateAt],
+		`INSERT INTO cate_note SET category=?,icon_image=?,updateAt=?`,
+		[category, icon_image, updateAt],
 		function(error,rows,field){
 			if(error){
 				console.log(error);
 			}
 			else{
-				response.ok('new category has been created',rows,res);
+				const data = {
+					id: rows.insertId,
+					category:category,
+					icon_image:icon_image,
+					createAt: updateAt,
+					updateAt: updateAt
+				}
+				response.ok(data,rows,res);
 			}
 		}
 	);
@@ -182,13 +215,27 @@ exports.updated = function(req, res){
    				if (rows.affectedRows==0) {
 	    			return res.send({ status: 400, message: 'id not found' });
 				}
-   				response.ok('note has been updated successfully',rows,res);
+   				connection.query(
+					`SELECT sim_note.id,title,note,sim_note.createAt,sim_note.updateAt,category_id,category FROM sim_note LEFT JOIN cate_note ON sim_note.category_id=cate_note.id WHERE sim_note.id=${id}`,
+					function (error, row, field){
+						const data = {
+							id: parseInt(id),
+							title: title,
+							note: note,
+							createAt: row[0].createAt,
+							updateAt: updateAt,
+							category_id: row[0].category_id,
+							category: row[0].category
+						}
+						response.ok(data,rows,res);
+					}
+				)
    			}
   		}
   	);
 }
 
-//UPDATE NOTE
+//UPDATE CATEGORY
 exports.upcategory = function(req, res){
 	let id = req.params.id;
  	let category = req.body.category;
@@ -227,7 +274,7 @@ exports.delete = function(req,res){
 	    			return res.send({ status: 400, message: 'id not found' });
 				}
 				else{
-					response.ok('Note has been DELETE successfully',rows,res);
+					response.ok(parseInt(id),rows,res);
 				}
      		}
 		}
@@ -238,7 +285,7 @@ exports.delete = function(req,res){
 exports.delBycategory = function(req, res){
 	let id = req.params.id;
 	connection.query(
-		'DELETE sim_note,cate_note FROM cate_note LEFT JOIN sim_note ON cate_note.id=sim_note.category_id WHERE cate_note.id=?',
+		'DELETE FROM cate_note WHERE id=?',
 		[id],
 		function (error, rows, field) {
 	     	if (error){
@@ -249,7 +296,7 @@ exports.delBycategory = function(req, res){
 	    			return res.send({ status: 400, message: 'id not found' });
 				}
 				else{
-					response.ok('category has been DELETE successfully',rows,res);
+					response.ok(parseInt(id),rows,res);
 				}
 	     	}
  		}

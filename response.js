@@ -19,13 +19,26 @@ exports.ok = function(values,rows,res){
 	res.end()
 }
 
-exports.info = function(values,values2,values3,rows,res){ //(data2,page,limit,data note,respon)
+exports.info = function(values,values2,values3,sort,rows,res){ //(data2,page,limit,data note,respon)
 	const data = {
 		status: 200,
 		data : rows,
 		totalNote : values.length, // display lots of data notes
-		page : parseInt(values2), 
+		page : parseInt(values2),
+		sortBy : sort,
 		totalPage : Math.ceil(values.length/values3)
+	};
+	res.json(data);
+	res.end()
+}
+
+exports.infoby = function(page,rows,res){ //(page, data note, respon)
+	const data = {
+		status: 200,
+		data : rows,
+		totalNote : rows.length, // display lots of data notes
+		page : parseInt(page), 
+		totalPage : Math.ceil(rows.length/10)
 	};
 	res.json(data);
 	res.end()

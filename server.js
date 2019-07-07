@@ -25,7 +25,7 @@ const logger = function(req,res,next){
 }
 app.use(logger)
 
-app.use(cors());
+// app.use(cors());
 
 app.use(
 	bodyParser.urlencoded({
