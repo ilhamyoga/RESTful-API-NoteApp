@@ -21,11 +21,11 @@ cd name_directory
 ```
 npm install
 ```
-9. After that, Run program
+7. After that, Run program
 ```
 npm start
 ```
-10. Test this program using tools called POSTMAN. Because by using POSTMAN we can check in realtime in making APIs.
+8. Test this program using tools called POSTMAN. Because by using POSTMAN we can check in realtime in making APIs.
 
 ## Route
 ### GET
