@@ -1,5 +1,5 @@
-# RESTful-NotesApp
-simple note application RESTful using node.js, express and mysql
+# RESTful API Simple Notes App
+Build with NodeJS, ExpressJS and Database MySQL
 
 ## Steps for using the program
 1. Install Node.js
@@ -8,7 +8,7 @@ https://nodesource.com/blog/installing-nodejs-tutorial-windows/
 ```
 mkdir name_directory
 ```
-3. Dowload or Clone this project and copy in your folder
+3. Dowload or clone this project and copy in your folder
 4. Install nodemon
 ```
 npm install -g nodemon
@@ -17,7 +17,7 @@ npm install -g nodemon
 ```
 cd name_directory
 ```
-6. Next, Install module. Modules can be likened to libraries that contain packages for use in applications.
+6. Next, install module. Modules can be likened to libraries that contain packages for use in applications.
 ```
 npm install
 ```
