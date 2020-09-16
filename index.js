@@ -1,22 +1,13 @@
-/*var express = require('express')
-var bodyparser = require('body-parser')
-var app = express()
 
-app.use(bodyparser.json())
-app.use('/', (req, res) => res.send('Hello Express!'))
-app.use('/routes', (req, res) => res.send('Routes Test'))
-app.listen(3000);
-console.log('RESTful API.. App berjalan di localhost:' + 3000);*/
-
-// merujuk express, body-parser
+// merujuk/import depedencies express, body-parser
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyparser = require('body-parser');
 
-// instansiasi obejct express dan di simpan pada konstanta app
+// instansiasi object express dan di simpan pada konstanta app
 const app = express();
 
-// gunakan body parser sebgai middleware
-app.use(bodyParser.json());
+// gunakan body parser sebagai middleware
+app.use(bodyparser.json());
 
 // untuk sementara kita anggap variable db ini sebagai sumber data kita
 // contoh data yang kita gunakan adalah job pada karakter game
@@ -42,7 +33,7 @@ let db = [
 // contoh routing pada express
 app.get('/', (request, response) => response.send('Hello World'));
 
-// memberikan List job
+// memberikan list job
 app.get('/jobs', (request, response) => {
     return response.json(db);
 });
@@ -105,4 +96,4 @@ app.delete('/jobs/:name', (request, response) => {
 });
 
 // mendengarkan event yang terjadi pada localhost dengan port 3000
-app.listen(3000, () => console.log('listenig on localhos:3000'));
+app.listen(3000, () => console.log('listening on localhost:3000'));
