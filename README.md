@@ -27,26 +27,5 @@ npm start
 ```
 8. Test this program using tools called POSTMAN. Because by using POSTMAN we can check in realtime in making APIs.
 
-## Route
-### GET
-```
-localhost:3000/notes  // using method get, to show all data note
-localhost:3000/notes/id  // using method get, to show data by id. change the id with the number to show single note
-localhost:3000/categories  // using method get, to show all data category
-localhost:3000/categories/id  // using method get, to show data by id. change the id with the number to show single category
-```
-### POST
-```
-localhost:3000/notes  // using method post, to insert new note to database
-localhost:3000/categories  // using method post, to insert new category to database
-```
-### PUT
-```
-localhost:3000/notes/id  // using method put, to update data by id. change the id with the number to update notes
-localhost:3000/notes/id // using method put, to update data by id. change the id with the number to update notes
-```
-### DELETE
-```
-localhost:3000/notes/id  // using method delete, to delete data by id. change the id with the number to delete
-localhost:3000/notes/id  // using method delete, to delete data by id. change the id with the number to delete
-```
+## Route documentation
+https://documenter.getpostman.com/view/7847723/TVK8aziE
