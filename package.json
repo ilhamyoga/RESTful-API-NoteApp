@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "nodemon": "nodemon server.js",
-    "start": "server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +16,6 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "lodash.isempty": "^4.4.0",
-    "mysql": "^2.17.1",
-    "time-stamp": "^2.2.0"
+    "mysql": "^2.17.1"
   }
 }
