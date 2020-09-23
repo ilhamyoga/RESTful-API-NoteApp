@@ -32,6 +32,5 @@ DB_NAME=simple_note_app
 
 ## Route documentation
 https://documenter.getpostman.com/view/7847723/TVK8aziE
-ront 
 ## Related Project
 - [FrontEnd](https://github.com/ilhamyoga/React-Native-Simple-Note-App.git)
