@@ -1,4 +1,4 @@
-# RESTful API Simple Notes App
+# RESTful API Simple Note App
 Build with NodeJS, ExpressJS and Database MySQL
 
 ## Steps for using the program
